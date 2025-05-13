@@ -145,7 +145,7 @@ void user_request(char *html, size_t html_size) {
     "button{background:#4CAF50;color:#fff}button.c{width:100px;height:100px;margin:2px}"
     "</style></head><body><h1>AMR</h1>"
 
-    "<form method='GET' action='/move'>"  // Definido o action corretamente
+    "<form method='GET' action='/move'>"  
     "<input name='a' placeholder='Setor' required>"
     "<input name='b' placeholder='Pos' required>"
     "<button style='background:#29f'>Mover</button></form>"
@@ -186,13 +186,13 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err
         destination.missing_deliverables = factory.robot.missing_deliverables;
         option_selected = 3;
         user_request(html, sizeof(html));
-    }else if(strncmp(request, "GET /manual?dir=up", 18) == 0){
+    }else if(strncmp(request, "GET /manual?dir=up", 18) == 0){ // Verifica se é a requisição é a de movimentação manual para cima
         manual_mode_movimentation(&factory, &sector, 2048, 3500, &ssd, delivered, objectives);
-    }else if(strncmp(request, "GET /manual?dir=down", 20) == 0){
+    }else if(strncmp(request, "GET /manual?dir=down", 20) == 0){ // Verifica se é a requisição é a de movimentação manual para baixo
         manual_mode_movimentation(&factory, &sector, 2048, 500, &ssd, delivered, objectives);
-    }else if(strncmp(request, "GET /manual?dir=left", 20) == 0){
+    }else if(strncmp(request, "GET /manual?dir=left", 20) == 0){ // Verifica se é a requisição é a de movimentação manual para esquerda
         manual_mode_movimentation(&factory, &sector, 500, 2048, &ssd, delivered, objectives);
-    }else if(strncmp(request, "GET /manual?dir=right", 21) == 0){
+    }else if(strncmp(request, "GET /manual?dir=right", 21) == 0){ // Verifica se é a requisição é a de movimentação manual para direita
         manual_mode_movimentation(&factory, &sector, 3500, 2048, &ssd, delivered, objectives);
     }else{
         user_request(html, sizeof(html));
@@ -286,18 +286,18 @@ int main(){
         cyw43_arch_poll(); // Necessário para manter o Wi-Fi ativo
         
         switch(option_selected){
-            case 1:
+            case 1: // Modo manual
                 reading_joystick(&joystick_x, &joystick_y); // Leitura do joystick
                 manual_mode_movimentation(&factory, &sector, joystick_x, joystick_y, &ssd, delivered, objectives); // Movimentação manual
                 break;
-            case 2:
+            case 2: // Modo CVRP
                 clear_display(&ssd); // Limpa o display
                 clear_matrix(); // Limpa a matriz de LEDs RGB1
                 solve_capacitated_vrp(&factory, objectives, distances, delivered, &sector, &ssd); // Resolve o problema do CVRP
                 manual_mode_display(&ssd); // Exibe a tela de movimentação manual 
                 option_selected = 1; // Retorna para o modo manual
                 break;
-            case 3:
+            case 3: // Modo de movimentação automática
                 clear_display(&ssd); // Limpa o display
                 clear_matrix(); // Limpa a matriz de LEDs RGB
                 find_path(destination, &factory, &sector, delivered, objectives, &ssd); // Encontra o caminho e movimenta o robô
