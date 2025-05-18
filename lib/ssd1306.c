@@ -265,7 +265,7 @@ void clear_display(ssd1306_t *ssd){
 
 // Função para exibir a tela sobre
 void start_display(ssd1306_t *ssd){
-  ssd1306_fill(ssd, true); // Limpa o display
+  ssd1306_fill(ssd, false); // Limpa o display
   ssd1306_draw_string(ssd, "CEPEDI   TIC37", 8, 10); // Desenha uma string
   ssd1306_draw_string(ssd, "Estabelecendo", 12, 30); // Desenha uma string
   ssd1306_draw_string(ssd, "Conexao", 33, 48); // Desenha uma string      

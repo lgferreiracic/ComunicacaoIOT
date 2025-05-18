@@ -34,7 +34,7 @@ uint8_t sector = 0; // Variável para armazenar o setor atual
 Robot objectives[NUM_LOADS]; // Vetor para armazenar os objetivos do robô
 int distances[NUM_LOADS]; // Vetor para armazenar as distâncias entre o robô e os objetivos
 bool delivered[NUM_LOADS] = {false, false, false, false, false}; // Vetor para armazenar se os objetivos foram entregues
-char html[1024]; // Buffer para armazenar a resposta HTML
+char html[2048]; // Buffer para armazenar a resposta HTML
 Robot destination; // Variável para armazenar o destino do robô
 
 // Estrutura responsável por armazenar a fábrica e o robô
@@ -135,22 +135,37 @@ void irq_handler(uint gpio, uint32_t events){
     }
 }
 
-// Função para gerar o HTML da página
 void user_request(char *html, size_t html_size) {
     snprintf(html, html_size,
     "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n"
     "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width,initial-scale=1'>"
-    "<style>body{font-family:sans-serif;text-align:center;background:#eee;margin:10px}"
-    "form{margin:5px}input,button{padding:8px;margin:3px;font-size:1em;border:0;border-radius:5px;width:130px;height:95px}"
-    "button{background:#4CAF50;color:#fff}button.c{width:100px;height:100px;margin:2px}"
-    "</style></head><body><h1>AMR</h1>"
+    "<style>"
+    "body{font-family:sans-serif;text-align:center;background:#eee;margin:10px}"
+    "form{margin:5px}input,button{padding:8px;margin:3px;font-size:1em;border:0;border-radius:5px;width:110px;height:75px}"
+    "button{background:#29f;color:#fff}button.c{width:80px;height:80px;margin:2px}"
+
+    ".img-container{width:300px;height:160px;margin:0 auto;overflow:hidden;position:relative}"
+
+    ".img-slider{width:100%%;display:flex;justify-content:center;animation:slide 4s infinite alternate ease-in-out;}"
+
+    "img{max-width:150px;height:auto;}"
+
+    "@keyframes slide {"
+        "0%% { transform: translateX(-50px); }"
+        "100%% { transform: translateX(50px); }"
+    "}"
+    "</style></head><body>"
+
+    "<div class='img-container'><div class='img-slider'>"
+    "<img src='https://i.imgur.com/sxX771s.png' alt='Robo'>"
+    "</div></div>"
 
     "<form method='GET' action='/move'>"  
     "<input name='a' placeholder='Setor' required>"
     "<input name='b' placeholder='Pos' required>"
-    "<button style='background:#29f'>Mover</button></form>"
+    "<button style='background:#1e4760'>Mover</button></form>"
 
-    "<form method='GET' action='/cvrp'><button style='background:#29f'>Entregas</button></form>"
+    "<form method='GET' action='/cvrp'><button style='background:#1e4760'>Entregas</button></form>"
 
     "<form method='GET' action='/manual'>"
     "<div><button class='c' name='dir' value='up'>C</button></div>"
